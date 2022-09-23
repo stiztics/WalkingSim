@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
 
     public Transform feetTrans; //Position of where the players feet touch the ground
-    float groundCheckDist = .5f; //How far down to check for the ground. The radius of Physics.CheckSphere
+    float groundCheckDist = .01f; //How far down to check for the ground. The radius of Physics.CheckSphere
     public bool grounded = false; //Is the player on the ground
 
     void Start()
