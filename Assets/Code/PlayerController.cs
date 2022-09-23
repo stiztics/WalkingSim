@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     int moveSpeed = 5; // how fast the player moves
     float lookSpeedX = 2; // left/right mouse sensitivity
-    float lookSpeedY = -1; // up/down mouse sensitivity
+    float lookSpeedY = -2; // up/down mouse sensitivity
     int jumpForce = 200; // ammount of force applied to create a jump
 
     public Transform camTrans; // a reference to the camera transform
