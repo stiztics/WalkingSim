@@ -6,7 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     int moveSpeed = 5; // how fast the player moves
     float lookSpeedX = 2; // left/right mouse sensitivity
-    float lookSpeedY = -2; // up/down mouse sensitivity
+    float lookSpeedY = -1; // up/down mouse sensitivity
+
     int jumpForce = 200; // ammount of force applied to create a jump
 
     public Transform camTrans; // a reference to the camera transform
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
         lookSpeedX *= .65f; //WebGL has a bug where the mouse has higher sensitibity. This compensates for the change. 
-        lookSpeedY *= .65f; //.65 is a rough guess based on testing in firefox.
+        lookSpeedY *= .65f; //.65 is a rough guess based on testing in firefox. 
 #endif
         _rigidbody = GetComponent<Rigidbody>(); // Using GetComponent is expensive. Always do it in start and chache it when you can.
         Cursor.lockState = CursorLockMode.Locked; // Hides the mouse and locks it to the center of the screen.
