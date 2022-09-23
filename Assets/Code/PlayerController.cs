@@ -18,14 +18,14 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayer;
 
     public Transform feetTrans; //Position of where the players feet touch the ground
-    float groundCheckDist = .5f; //How far down to check for the ground. The radius of Physics.CheckSphere
+    float groundCheckDist = .01f; //How far down to check for the ground. The radius of Physics.CheckSphere
     public bool grounded = false; //Is the player on the ground
 
     void Start()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
         lookSpeedX *= .65f; //WebGL has a bug where the mouse has higher sensitibity. This compensates for the change. 
-        lookSpeedY *= .65f; //.65 is a rough guess based on testing in firefox.
+        lookSpeedY *= .65f; //.65 is a rough guess based on testing in firefox. 
 #endif
         _rigidbody = GetComponent<Rigidbody>(); // Using GetComponent is expensive. Always do it in start and chache it when you can.
         Cursor.lockState = CursorLockMode.Locked; // Hides the mouse and locks it to the center of the screen.
