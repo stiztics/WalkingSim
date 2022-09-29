@@ -47,6 +47,7 @@ public class PlayerAttack : MonoBehaviour
                 if(enemy.CompareTag("Monster")){
                     PublicVars.AddKill(1);
                     displayenemy.enemyValue += 1;
+                    
                     Destroy(enemy);
                 }
             }
