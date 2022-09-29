@@ -48,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
                     PublicVars.AddKill(1);
                     displayenemy.enemyValue += 1;
                     
-                    Destroy(enemy);
+                    Destroy(enemy.transform.parent.gameObject);
                 }
             }
         }
