@@ -34,11 +34,13 @@ public class PlayerAttack : MonoBehaviour
     //Game Values
     private int bulletsLeft;
     private bool reloadingState;
+    private bool shootingState;
 
     private void Start(){
         //Game Values
         bulletsLeft = 6;
         reloadingState = false;
+        shootingState = true;
         _audioSource = GetComponent<AudioSource>();
         AddScorePotion(0);
         SubBullet(); 
@@ -48,25 +50,28 @@ public class PlayerAttack : MonoBehaviour
     {
         // left mouse button
         if(Input.GetMouseButtonDown(0) && reloadingState == false) {
-            if(bulletsLeft > 0){                
-                RaycastHit hit; 
-                _audioSource.PlayOneShot(gunSound, volume);
-                bulletsLeft = bulletsLeft - 1;
-                SubBullet(); 
-                if(Physics.Raycast(camTrans.position, camTrans.forward, out hit, raycastDist, enemyLayer)){
-                    GameObject enemy = hit.collider.gameObject; 
-                    if(enemy.CompareTag("Target")){
-                        // push back
-                        Rigidbody enemyRB = enemy.GetComponent<Rigidbody>(); 
-                        enemyRB.AddForce(transform.forward * 800 + Vector3.up * 200);
-                        enemyRB.AddTorque(new Vector3(Random.Range(-50,50), Random.Range(-50,50), Random.Range(-50,50)));
-                    }
-                    if(enemy.CompareTag("Monster")){
-                        print(enemy);
-                        // PublicVars.AddKill(1);
-                        displayenemy.enemyValue += 1;
-                        
-                        Destroy(enemy);
+            if(bulletsLeft > 0){
+                if(shootingState == true){
+                    shootingState = false;
+                    StartCoroutine(ShootingDelay());
+                    RaycastHit hit; 
+                    _audioSource.PlayOneShot(gunSound, volume);
+                    bulletsLeft = bulletsLeft - 1;
+                    SubBullet(); 
+                    if(Physics.Raycast(camTrans.position, camTrans.forward, out hit, raycastDist, enemyLayer)){
+                        GameObject enemy = hit.collider.gameObject; 
+                        if(enemy.CompareTag("Target")){
+                            // push back
+                            Rigidbody enemyRB = enemy.GetComponent<Rigidbody>(); 
+                            enemyRB.AddForce(transform.forward * 800 + Vector3.up * 200);
+                            enemyRB.AddTorque(new Vector3(Random.Range(-50,50), Random.Range(-50,50), Random.Range(-50,50)));
+                        }
+                        if(enemy.CompareTag("Monster")){
+                            print(enemy);
+                            // PublicVars.AddKill(1);
+                            displayenemy.enemyValue += 1;
+                            Destroy(enemy);
+                        }
                     }
                 }
             }
@@ -75,20 +80,29 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
+        if(bulletsLeft == 0 && reloadingState == false){
+            StartCoroutine(ReloadDelay());
+        }
+
         //Pressed R
         if(Input.GetKeyDown("r") && reloadingState == false && bulletsLeft < 6){
-            _audioSource.PlayOneShot(gunReload, volume);
-            reloadingState = true;
             StartCoroutine(ReloadDelay());
-            bulletsLeft = 6;
         }
     }
 
 
     private IEnumerator ReloadDelay(){
+        _audioSource.PlayOneShot(gunReload, volume);
+        reloadingState = true;
         yield return new  WaitForSecondsRealtime(3f);
         reloadingState = false;
+        bulletsLeft = 6;
         SubBullet(); 
+    }
+
+    private IEnumerator ShootingDelay(){
+        yield return new  WaitForSecondsRealtime(.5f);
+        shootingState = true;
     }
 
     private void FixedUpdate(){
