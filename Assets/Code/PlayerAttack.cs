@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     private bool recticleTarget = false;
 
     AudioSource _audioSource;
-    public AudioClip coinSound;
+    public AudioClip potionSound;
     public AudioClip gunSound;
     public AudioClip gunEmpty;
     public AudioClip gunReload;
@@ -62,7 +62,7 @@ public class PlayerAttack : MonoBehaviour
                         PublicVars.AddKill(1);
                         displayenemy.enemyValue += 1;
                         
-                        Destroy(enemy.transform.parent.gameObject);
+                        Destroy(enemy);
                     }
                 }
             }
@@ -101,11 +101,15 @@ public class PlayerAttack : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other){
-        if(other.CompareTag("Coin")){
-            //_audioSource.PlayOneShot(coinSound, volume);                   Same Problems here. Cannot play the audio clip
+        if(other.CompareTag("Potion")){
+            _audioSource.PlayOneShot(potionSound, volume);
             PublicVars.AddScore(1);
             displayScore.scoreValue += 1;
             Destroy(other.gameObject);
+        }
+        if(other.CompareTag("Monster")){
+            //You Die. TODO
+            //Play death music and load retry screens
         }
     }
 }
