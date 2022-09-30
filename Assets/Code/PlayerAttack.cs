@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
+using TMPro; 
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class PlayerAttack : MonoBehaviour
     // User aim dot
     public Image recticle;
 
+    public TextMeshProUGUI potionScoreText;
+    public TextMeshProUGUI bulletCount; 
+
     private bool recticleTarget = false;
 
     AudioSource _audioSource;
@@ -26,19 +31,17 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip gunReload;
     public float volume = 0.5f;
 
-     //Game Values
+    //Game Values
     private int bulletsLeft;
     private bool reloadingState;
-    private int playerHealth;
-
-
 
     private void Start(){
         //Game Values
         bulletsLeft = 6;
         reloadingState = false;
         _audioSource = GetComponent<AudioSource>();
-        PublicVars.AddScore(0);
+        AddScorePotion(0);
+        SubBullet(); 
     }
 
     void Update()
@@ -49,6 +52,7 @@ public class PlayerAttack : MonoBehaviour
                 RaycastHit hit; 
                 _audioSource.PlayOneShot(gunSound, volume);
                 bulletsLeft = bulletsLeft - 1;
+                SubBullet(); 
                 if(Physics.Raycast(camTrans.position, camTrans.forward, out hit, raycastDist, enemyLayer)){
                     GameObject enemy = hit.collider.gameObject; 
                     if(enemy.CompareTag("Target")){
@@ -59,7 +63,7 @@ public class PlayerAttack : MonoBehaviour
                     }
                     if(enemy.CompareTag("Monster")){
                         print(enemy);
-                        PublicVars.AddKill(1);
+                        // PublicVars.AddKill(1);
                         displayenemy.enemyValue += 1;
                         
                         Destroy(enemy);
@@ -77,6 +81,7 @@ public class PlayerAttack : MonoBehaviour
             reloadingState = true;
             StartCoroutine(ReloadDelay());
             bulletsLeft = 6;
+            SubBullet(); 
         }
     }
 
@@ -103,13 +108,25 @@ public class PlayerAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         if(other.CompareTag("Potion")){
             _audioSource.PlayOneShot(potionSound, volume);
-            PublicVars.AddScore(1);
-            displayScore.scoreValue += 1;
+            AddScorePotion(1); 
+            //displayScore.scoreValue += 1;
             Destroy(other.gameObject);
         }
         if(other.CompareTag("Monster")){
             //You Die. TODO
             //Play death music and load retry screens
+            SceneManager.LoadScene("End");
         }
+    }
+
+    // Display Potion Count
+    void AddScorePotion(int points){
+        PublicVars.potion_score += points; 
+        potionScoreText.text = "Potion Points: " + PublicVars.potion_score + "/5"; 
+    }
+
+    // Display Bullet Count
+    void SubBullet(){
+        bulletCount.text = "Bullet Count: " + bulletsLeft + "/6"; 
     }
 }

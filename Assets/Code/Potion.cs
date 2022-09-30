@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Potion : MonoBehaviour
 {
     int speed = 25;
     // Update is called once per frame
