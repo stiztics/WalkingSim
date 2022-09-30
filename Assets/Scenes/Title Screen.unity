@@ -1106,11 +1106,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Collect 5 potions by collecting blue tokens, and make sure you stay away
-    from zombies following you!
+  m_text: 'Collect 5 potions around the map, and make sure you stay away from zombies
+    following you!
 
-    Limit of 6 bullets, press r to reload, and left
-    click to shoot!'
+    Limit of 6 bullets, press r to reload, and left click to
+    shoot!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
