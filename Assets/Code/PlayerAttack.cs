@@ -22,9 +22,20 @@ public class PlayerAttack : MonoBehaviour
     AudioSource _audioSource;
     public AudioClip coinSound;
     public AudioClip gunSound;
+    public AudioClip gunEmpty;
+    public AudioClip gunReload;
     public float volume = 0.5f;
 
+     //Game Values
+    private int bulletsLeft;
+    private bool reloadingState;
+
+
+
     private void Start(){
+        //Game Values
+        bulletsLeft = 6;
+        reloadingState = false;
         _audioSource = GetComponent<AudioSource>();
         PublicVars.AddScore(0);
     }
@@ -32,26 +43,45 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         // left mouse button
-        if(Input.GetMouseButtonDown(0)) {
-            RaycastHit hit; 
-
-            if(Physics.Raycast(camTrans.position, camTrans.forward, out hit, raycastDist, enemyLayer)){
-                GameObject enemy = hit.collider.gameObject; 
-                //_audioSource.PlayOneShot(gunSound, volume);                         having problem with this code. Cannot play the audio clip.
-                if(enemy.CompareTag("Target")){
-                    // push back
-                    Rigidbody enemyRB = enemy.GetComponent<Rigidbody>(); 
-                    enemyRB.AddForce(transform.forward * 800 + Vector3.up * 200);
-                    enemyRB.AddTorque(new Vector3(Random.Range(-50,50), Random.Range(-50,50), Random.Range(-50,50)));
-                }
-                if(enemy.CompareTag("Monster")){
-                    PublicVars.AddKill(1);
-                    displayenemy.enemyValue += 1;
-                    
-                    Destroy(enemy.transform.parent.gameObject);
+        if(Input.GetMouseButtonDown(0) && reloadingState == false) {
+            if(bulletsLeft > 0){                
+                RaycastHit hit; 
+                _audioSource.PlayOneShot(gunSound, volume);
+                bulletsLeft = bulletsLeft - 1;
+                if(Physics.Raycast(camTrans.position, camTrans.forward, out hit, raycastDist, enemyLayer)){
+                    GameObject enemy = hit.collider.gameObject; 
+                    if(enemy.CompareTag("Target")){
+                        // push back
+                        Rigidbody enemyRB = enemy.GetComponent<Rigidbody>(); 
+                        enemyRB.AddForce(transform.forward * 800 + Vector3.up * 200);
+                        enemyRB.AddTorque(new Vector3(Random.Range(-50,50), Random.Range(-50,50), Random.Range(-50,50)));
+                    }
+                    if(enemy.CompareTag("Monster")){
+                        PublicVars.AddKill(1);
+                        displayenemy.enemyValue += 1;
+                        
+                        Destroy(enemy.transform.parent.gameObject);
+                    }
                 }
             }
+            else{
+                _audioSource.PlayOneShot(gunEmpty, volume);
+            }
         }
+
+        //Pressed R
+        if(Input.GetKeyDown("r") && reloadingState == false){
+            _audioSource.PlayOneShot(gunReload, volume);
+            reloadingState = true;
+            StartCoroutine(ReloadDelay());
+            bulletsLeft = 6;
+        }
+    }
+
+
+    private IEnumerator ReloadDelay(){
+        yield return new  WaitForSecondsRealtime(3f);
+        reloadingState = false;
     }
 
     private void FixedUpdate(){
@@ -77,4 +107,3 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 }
-
