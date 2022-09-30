@@ -76,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         //Pressed R
-        if(Input.GetKeyDown("r") && reloadingState == false){
+        if(Input.GetKeyDown("r") && reloadingState == false && bulletsLeft < 6){
             _audioSource.PlayOneShot(gunReload, volume);
             reloadingState = true;
             StartCoroutine(ReloadDelay());
@@ -110,6 +110,7 @@ public class PlayerAttack : MonoBehaviour
             _audioSource.PlayOneShot(potionSound, volume);
             AddScorePotion(1); 
             if(PublicVars.potion_score >= 5){
+                PublicVars.potion_score = 0;
                 SceneManager.LoadScene("WinScreen"); 
             }
             //displayScore.scoreValue += 1;
@@ -118,6 +119,7 @@ public class PlayerAttack : MonoBehaviour
         if(other.CompareTag("Monster")){
             //You Die. TODO
             //Play death music and load retry screens
+            PublicVars.potion_score = 0;
             SceneManager.LoadScene("End");
         }
     }
