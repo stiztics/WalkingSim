@@ -978,7 +978,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Collect 5 potions by hitting a RED target, and make sure you stay away
+  m_text: 'Collect 5 potions by collecting blue tokens, and make sure you stay away
     from zombies following you!
 
     Limit of 6 bullets, press r to reload, and left
