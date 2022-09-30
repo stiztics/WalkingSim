@@ -126,6 +126,13 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.tag == "Monster"){
+            PublicVars.potion_score = 0;
+            SceneManager.LoadScene("End");
+        }
+    }
     private void OnTriggerEnter(Collider other){
         if(other.CompareTag("Potion")){
             _audioSource.PlayOneShot(potionSound, volume);
@@ -136,12 +143,6 @@ public class PlayerAttack : MonoBehaviour
             }
             //displayScore.scoreValue += 1;
             Destroy(other.gameObject);
-        }
-        if(other.CompareTag("Monster")){
-            //You Die. TODO
-            //Play death music and load retry screens
-            PublicVars.potion_score = 0;
-            SceneManager.LoadScene("End");
         }
     }
 

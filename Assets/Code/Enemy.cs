@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate() {
         Vector3 pos = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.fixedDeltaTime);
-        pos.y = 2.92f;
         rb.MovePosition(pos);
         transform.LookAt(target);
     }
