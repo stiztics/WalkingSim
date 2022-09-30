@@ -8,6 +8,7 @@ using TMPro;
 public class PlayerAttack : MonoBehaviour
 {
 
+
     // the ray distance of the player bieng able to shoot an object
     private float raycastDist = 50; 
 
