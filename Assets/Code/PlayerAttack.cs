@@ -103,6 +103,12 @@ public class PlayerAttack : MonoBehaviour
             recticle.color = Color.white; 
             recticleTarget = false; 
         }
+
+
+        if(transform.position.y < -10){
+            PublicVars.potion_score = 0;
+            SceneManager.LoadScene("End");
+        }
     }
 
     private void OnTriggerEnter(Collider other){
