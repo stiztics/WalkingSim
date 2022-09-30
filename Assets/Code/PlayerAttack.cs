@@ -81,7 +81,6 @@ public class PlayerAttack : MonoBehaviour
             reloadingState = true;
             StartCoroutine(ReloadDelay());
             bulletsLeft = 6;
-            SubBullet(); 
         }
     }
 
@@ -89,6 +88,7 @@ public class PlayerAttack : MonoBehaviour
     private IEnumerator ReloadDelay(){
         yield return new  WaitForSecondsRealtime(3f);
         reloadingState = false;
+        SubBullet(); 
     }
 
     private void FixedUpdate(){
