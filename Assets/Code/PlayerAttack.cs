@@ -109,6 +109,9 @@ public class PlayerAttack : MonoBehaviour
         if(other.CompareTag("Potion")){
             _audioSource.PlayOneShot(potionSound, volume);
             AddScorePotion(1); 
+            if(PublicVars.potion_score >= 5){
+                SceneManager.LoadScene("WinScreen"); 
+            }
             //displayScore.scoreValue += 1;
             Destroy(other.gameObject);
         }
