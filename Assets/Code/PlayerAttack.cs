@@ -29,6 +29,7 @@ public class PlayerAttack : MonoBehaviour
      //Game Values
     private int bulletsLeft;
     private bool reloadingState;
+    private int playerHealth;
 
 
 
@@ -57,6 +58,7 @@ public class PlayerAttack : MonoBehaviour
                         enemyRB.AddTorque(new Vector3(Random.Range(-50,50), Random.Range(-50,50), Random.Range(-50,50)));
                     }
                     if(enemy.CompareTag("Monster")){
+                        print(enemy);
                         PublicVars.AddKill(1);
                         displayenemy.enemyValue += 1;
                         
